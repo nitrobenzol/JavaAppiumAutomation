@@ -46,8 +46,9 @@ public class FirstTest {
         WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text,'Search Wikipedia')]");
         element_to_init_search.click();
 
+        WebElement element_to_enter_search_line = driver.findElementById("org.wikipedia:id/search_src_text");
+        element_to_enter_search_line.sendKeys("Appium");
 
-        
         // System.out.println("First test run");
     }
 }
