@@ -42,12 +42,12 @@ public class FirstTest {
     @Test
     public void firstTest()
     {
-        waitForElementAndClick(
+        waitForElementByXpathAndClick(
                 "//*[contains(@text,'Search Wikipedia')]",
                 "Cannot find Search Wikipedia input",
                 5
         );
-        waitForElementAndSendKeys(
+        waitForElementByXpathAndSendKeys(
                 "//*[contains(@text,'Search…')]",
                 "Java",
                 "Cannot find search input",
@@ -80,14 +80,14 @@ public class FirstTest {
         return waitForElementPresentByXpath(xpath, error_message, 5);
     }
 
-    private WebElement waitForElementAndClick(String xpath, String error_message, long timeoutInSeconds)
+    private WebElement waitForElementByXpathAndClick(String xpath, String error_message, long timeoutInSeconds)
     {
         WebElement element = waitForElementPresentByXpath(xpath, error_message, 5);
         element.click();
         return element;
     }
 
-    private WebElement waitForElementAndSendKeys(String xpath, String value, String error_message, long timeoutInSeconds)
+    private WebElement waitForElementByXpathAndSendKeys(String xpath, String value, String error_message, long timeoutInSeconds)
     {
         WebElement element = waitForElementPresentByXpath(xpath, error_message, 5);
         element.sendKeys(value);
