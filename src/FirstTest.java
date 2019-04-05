@@ -42,19 +42,23 @@ public class FirstTest {
     @Test
     public void firstTest()
     {
-        // нажмем на строку поиска для начала поиска
-        WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text,'Search Wikipedia')]");
-        element_to_init_search.click();
-
-        WebElement element_to_enter_search_line = waitForElementPresentByXpath(
-                "//*[contains(@text,'Search…')]",
-                "Cannot find search input"
+        waitForElementAndClick(
+                "//*[contains(@text,'Search Wikipedia')]",
+                "Cannot find Search Wikipedia input",
+                5
         );
+        waitForElementAndSendKeys(
+                "//*[contains(@text,'Search…')]",
+                "Java",
+                "Cannot find search input",
+                5
 
-                //driver.findElementById("org.wikipedia:id/search_src_text");
-        element_to_enter_search_line.sendKeys("Java");
-
-        // System.out.println("First test run");
+        );
+        waitForElementPresentByXpath(
+                "//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']",
+                "Cannot find 'Object-oriented programming language' topic searching by 'Java'",
+                15
+        );
     }
 
     // метод таймаута для элементов, найденных через xpath
@@ -74,5 +78,19 @@ public class FirstTest {
     private WebElement waitForElementPresentByXpath(String xpath, String error_message)
     {
         return waitForElementPresentByXpath(xpath, error_message, 5);
+    }
+
+    private WebElement waitForElementAndClick(String xpath, String error_message, long timeoutInSeconds)
+    {
+        WebElement element = waitForElementPresentByXpath(xpath, error_message, 5);
+        element.click();
+        return element;
+    }
+
+    private WebElement waitForElementAndSendKeys(String xpath, String value, String error_message, long timeoutInSeconds)
+    {
+        WebElement element = waitForElementPresentByXpath(xpath, error_message, 5);
+        element.sendKeys(value);
+        return element;
     }
 }
