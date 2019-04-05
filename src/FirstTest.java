@@ -41,31 +41,28 @@ public class FirstTest {
 
     @Test
     public void firstTest()
-    {   // пропустим интро в приложении нажатием на skip
-        WebElement element_to_skip_intro = driver.findElementByXPath("//*[contains(@text,'Skip')]");
-        element_to_skip_intro.click();
-
+    {
         // нажмем на строку поиска для начала поиска
         WebElement element_to_init_search = driver.findElementByXPath("//*[contains(@text,'Search Wikipedia')]");
         element_to_init_search.click();
 
-        WebElement element_to_enter_search_line = waitForElementPresentById(
-                "org.wikipedia:id/search_src_text",
+        WebElement element_to_enter_search_line = waitForElementPresentByXpath(
+                "//*[contains(@text,'Search…')]",
                 "Cannot find search input"
         );
 
                 //driver.findElementById("org.wikipedia:id/search_src_text");
-        element_to_enter_search_line.sendKeys("Appium");
+        element_to_enter_search_line.sendKeys("Java");
 
         // System.out.println("First test run");
     }
 
-    // метод таймаута
-    private WebElement waitForElementPresentById(String id, String error_message, long timeoutInSeconds)
+    // метод таймаута для элементов, найденных через xpath
+    private WebElement waitForElementPresentByXpath(String xpath, String error_message, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
-        By by = By.id(id);
+        By by = By.xpath(xpath);
         return wait.until(
                 ExpectedConditions.presenceOfElementLocated(by)
         );
@@ -74,8 +71,8 @@ public class FirstTest {
 
     // перегрузка метода позволяет использовать таймаут по умолчанию - то есть,
     // если указать значение, то будет использовано прописанное, а если нет, то по умолчанию
-    private WebElement waitForElementPresentById(String id, String error_message)
+    private WebElement waitForElementPresentByXpath(String xpath, String error_message)
     {
-        return waitForElementPresentById(id, error_message, 5);
+        return waitForElementPresentByXpath(xpath, error_message, 5);
     }
 }
