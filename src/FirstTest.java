@@ -1,6 +1,7 @@
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -96,7 +97,45 @@ public class FirstTest {
         );
     }
 
-    // метод таймаута для элементов, найденных через xpath
+    @Test
+    public void testCompareArticleTitle()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Java",
+                "Cannot find search input",
+                5
+        );
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        // одновременно с ожиданием элемента сохраняем его значение в переменную titleElement
+        WebElement titleElement = waitForElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Cannot find article title",
+                15
+        );
+
+        // присваиваем значение атрибута text от только что полученной переменной titleElement новой переменной article_title
+        String article_title = titleElement.getAttribute("text");
+
+        Assert.assertEquals(
+                "We see unexpected title",
+                "Java (programming language)",
+                article_title
+        );
+
+    }
+
+    // метод таймаута
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
@@ -126,18 +165,6 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by, error_message, 5);
         element.sendKeys(value);
         return element;
-    }
-
-    // метод таймаута для элементов, найденных через id
-    private WebElement waitForElementPresentById(String id, String error_message, long timeoutInSeconds)
-    {
-        WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
-        wait.withMessage(error_message + "\n");
-        By by = By.id(id);
-        return wait.until(
-                ExpectedConditions.presenceOfElementLocated(by)
-        );
-
     }
 
     private boolean waitForElementNotPresent(By by, String error_message, long timeoutInSeconds)
