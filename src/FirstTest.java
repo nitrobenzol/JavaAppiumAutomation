@@ -135,6 +135,48 @@ public class FirstTest {
 
     }
 
+    @Test
+    public void testLookForWordAndCancel()
+    {
+        waitForElementAndClick(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "test",
+                "Cannot find search input",
+                5
+        );
+
+        // ждем возврата результата поиска от сервера
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_results_list"),
+                "Cannot see list of results",
+                15
+        );
+
+        // считаем количество элементов и сравниваем
+        int size_of_list = driver.findElements(By.id("org.wikipedia:id/page_list_item_container")).size();
+        Assert.assertTrue("There is just 1 element on the list", size_of_list>1);
+
+        // нажимаем на крестик для отмены поиска
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find X to cancel search ",
+                5
+        );
+
+        // убеждаемся, что показан зероскрин поиска
+        waitForElementPresent(
+                By.id("org.wikipedia:id/search_empty_image"),
+                "There are still search results shown",
+                5
+        );
+
+    }
+
     // метод таймаута
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
     {
