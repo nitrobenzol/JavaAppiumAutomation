@@ -620,12 +620,6 @@ public class FirstTest {
                 5
         );
 
-//        waitForElementAndClick(
-//                By.id("org.wikipedia:id/item_title"),
-//                "Cannot find created folder",
-//                5
-//        );
-
         swipeElementToLeft(
                 By.xpath("//*[@text='"+ first_article_name +"']"),
                 "Cannot find saved article"
@@ -657,6 +651,43 @@ public class FirstTest {
         );
 
     }
+
+
+    @Test
+    public void testArticleTitleAvailability()
+    {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find 'Search Wikipedia' input",
+                5
+        );
+
+        String search_line1 = "Java";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_line1,
+                "Cannot find search input",
+                5
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
+                "Cannot find 'Search Wikipedia' input " + search_line1,
+                10
+        );
+
+        waitForElementPresent(
+                By.id("org.wikipedia:id/page_header_view"),
+                "Seems like it is not article page",
+                10
+        );
+
+        assertElementPresent(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "Cannot find title for the " + search_line1 + " article"
+        );
+    }
+
 
     // метод таймаута
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds)
@@ -773,6 +804,15 @@ public class FirstTest {
         int amount_of_elements = getAmountOfElements(by);
         if (amount_of_elements > 0){
             String default_message = "An element '" + by.toString() + "' supposed to be not present";
+            throw new AssertionError(default_message + " " + error_message);
+        }
+    }
+
+    private void assertElementPresent(By by, String error_message)
+    {
+        int amount_of_elements = getAmountOfElements(by);
+        if (amount_of_elements == 0){
+            String default_message = "An element '" + by.toString() + "' does not exist on this screen";
             throw new AssertionError(default_message + " " + error_message);
         }
     }
