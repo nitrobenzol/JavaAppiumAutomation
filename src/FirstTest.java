@@ -615,10 +615,16 @@ public class FirstTest {
         );
 
         waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/item_title'][@text='"+ name_of_folder +"']"),
+                By.xpath("//*[@text='"+ name_of_folder +"']"),
                 "Cannot find created folder",
-                10
+                5
         );
+
+//        waitForElementAndClick(
+//                By.id("org.wikipedia:id/item_title"),
+//                "Cannot find created folder",
+//                5
+//        );
 
         swipeElementToLeft(
                 By.xpath("//*[@text='"+ first_article_name +"']"),
