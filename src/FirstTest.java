@@ -3,7 +3,6 @@ import lib.ui.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.ScreenOrientation;
 
 public class FirstTest extends CoreTestCase {
 
@@ -49,7 +48,7 @@ public class FirstTest extends CoreTestCase {
 
         ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
         String article_title = ArticlePageObject.getArticleTitle();
-        Assert.assertEquals(
+        assertEquals(
                 "We see unexpected title",
                 "Java (programming language)",
                 article_title
@@ -60,43 +59,14 @@ public class FirstTest extends CoreTestCase {
     @Test
     public void testLookForWordAndCancel()
     {
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
-                "Cannot find 'Search Wikipedia' input",
-                5
-        );
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
 
-        MainPageObject.waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text,'Search…')]"),
-                "test",
-                "Cannot find search input",
-                5
-        );
-
-        // ждем возврата результата поиска от сервера
-        MainPageObject.waitForElementPresent(
-                By.id("org.wikipedia:id/search_results_list"),
-                "Cannot see list of results",
-                15
-        );
-
-        // считаем количество элементов и сравниваем
-        int size_of_list = driver.findElements(By.id("org.wikipedia:id/page_list_item_container")).size();
-        Assert.assertTrue("There is just 1 element on the list", size_of_list>1);
-
-        // нажимаем на крестик для отмены поиска
-        MainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_close_btn"),
-                "Cannot find X to cancel search ",
-                5
-        );
-
-        // убеждаемся, что показан зероскрин поиска
-        MainPageObject.waitForElementPresent(
-                By.id("org.wikipedia:id/search_empty_image"),
-                "There are still search results shown",
-                5
-        );
+        SearchPageObject.initSearchInput();
+        SearchPageObject.typeSearchLine("test");
+        int size_of_list = SearchPageObject.getAmountOfFoundArticles();
+        assertTrue("There is just 1 element on the list", size_of_list>1);
+        SearchPageObject.clickCancelSearch();
+        SearchPageObject.waitForEmptySearchLabel();
 
     }
 
@@ -149,7 +119,7 @@ public class FirstTest extends CoreTestCase {
         SearchPageObject.typeSearchLine(search_line);
         int amount_of_search_results = SearchPageObject.getAmountOfFoundArticles();
 
-        Assert.assertTrue(
+        assertTrue(
                 "We found too few results",
                 amount_of_search_results > 0
                 );
@@ -180,7 +150,7 @@ public class FirstTest extends CoreTestCase {
         this.rotateScreenLandscape();
         String title_after_rotation = ArticlePageObject.getArticleTitle();
 
-        Assert.assertEquals(
+        assertEquals(
                 "Article title have been changed after rotation",
                 title_before_rotation,
                 title_after_rotation
@@ -190,7 +160,7 @@ public class FirstTest extends CoreTestCase {
 
         String title_after_second_rotation = ArticlePageObject.getArticleTitle();
 
-        Assert.assertEquals(
+        assertEquals(
                 "Article title have been changed after rotation",
                 title_before_rotation,
                 title_after_second_rotation
@@ -380,7 +350,7 @@ public class FirstTest extends CoreTestCase {
                 10
         );
 
-        Assert.assertEquals(
+        assertEquals(
                 "Article title does not match the saved article's one",
                 second_article_name,
                 actual_result
