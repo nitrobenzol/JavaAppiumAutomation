@@ -15,7 +15,8 @@ public class ArticlePageObject extends MainPageObject
         MY_LIST_NAME_INPUT = "org.wikipedia:id/text_input",
         MY_LIST_OK_BUTTON = "//*[@text='OK']",
         CLOSE_ARTICLE_BUTTON = "//android.widget.ImageButton[@content-desc='Navigate up']",
-        FOLDER_BY_NAME_TPL = "//*[@text='{FOLDER_NAME}']";
+        FOLDER_BY_NAME_TPL = "//*[@text='{FOLDER_NAME}']",
+        HEADER = "org.wikipedia:id/page_header_view";
 
 
     public ArticlePageObject(AppiumDriver driver)
@@ -124,5 +125,19 @@ public class ArticlePageObject extends MainPageObject
                 "Cannot close article, cannot find X link",
                 5
         );
+    }
+
+    public void waitForArticleHeaderToAppear()
+    {
+        this.waitForElementPresent(By.id(HEADER),
+                "Seems like it is not article page",
+                10);
+    }
+
+    public void assertTitlePresence()
+    {
+        this.assertElementPresent(
+                By.id(TITLE),
+                "Cannot find title on this page");
     }
 }

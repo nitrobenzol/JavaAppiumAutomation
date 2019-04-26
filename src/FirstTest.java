@@ -1,7 +1,6 @@
 import lib.CoreTestCase;
 import lib.ui.*;
 import org.junit.Test;
-import org.openqa.selenium.By;
 
 public class FirstTest extends CoreTestCase {
 
@@ -224,36 +223,14 @@ public class FirstTest extends CoreTestCase {
     @Test
     public void testArticleTitleAvailability()
     {
-        MainPageObject.waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find 'Search Wikipedia' input",
-                5
-        );
-
+        SearchPageObject SearchPageObject = new SearchPageObject(driver);
+        SearchPageObject.initSearchInput();
         String search_line1 = "Java";
-        MainPageObject.waitForElementAndSendKeys(
-                By.xpath("//*[contains(@text,'Search…')]"),
-                search_line1,
-                "Cannot find search input",
-                5
-        );
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Object-oriented programming language']"),
-                "Cannot find 'Search Wikipedia' input " + search_line1,
-                10
-        );
-
-        MainPageObject.waitForElementPresent(
-                By.id("org.wikipedia:id/page_header_view"),
-                "Seems like it is not article page",
-                10
-        );
-
-        MainPageObject.assertElementPresent(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "Cannot find title for the " + search_line1 + " article"
-        );
+        SearchPageObject.typeSearchLine(search_line1);
+        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        ArticlePageObject ArticlePageObject = new ArticlePageObject(driver);
+        ArticlePageObject.waitForArticleHeaderToAppear();
+        ArticlePageObject.assertTitlePresence();
     }
 
 }
