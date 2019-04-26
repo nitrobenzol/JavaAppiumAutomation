@@ -184,7 +184,6 @@ public class FirstTest extends CoreTestCase {
     public void testTwoArticlesSaveBothAndDeleteOne()
     {
         SearchPageObject SearchPageObject = new SearchPageObject(driver);
-
         SearchPageObject.initSearchInput();
         String search_line1 = "Java";
         SearchPageObject.typeSearchLine(search_line1);
@@ -194,16 +193,8 @@ public class FirstTest extends CoreTestCase {
         ArticlePageObject.waitForTitleElement();
         String first_article_name = ArticlePageObject.getArticleTitle();
         String name_of_folder = "Test folder";
-
         ArticlePageObject.addArticleToMyListToNewFolder(name_of_folder);
         ArticlePageObject.closeArticle();
-//
-//        NavigationUI NavigationUI = new NavigationUI(driver);
-//        NavigationUI.clickMyLists();
-//
-//        MyListsPageObject MyListsPageObject = new MyListsPageObject(driver);
-//        MyListsPageObject.openFolderByName(name_of_folder);
-//        MyListsPageObject.swipeByArticleToDelete(article_title);
 
         SearchPageObject.initSearchInput();
         String search_line2 = "JavaScript";
@@ -211,50 +202,16 @@ public class FirstTest extends CoreTestCase {
         SearchPageObject.clickByArticleWithSubstring("Programming language");
         String second_article_name = ArticlePageObject.getArticleTitle();
         ArticlePageObject.addArticleToMyListToExistingFolder(name_of_folder);
+        ArticlePageObject.closeArticle();
 
+        NavigationUI NavigationUI = new NavigationUI(driver);
+        NavigationUI.clickMyLists();
+        MyListsPageObject MyListsPageObject = new MyListsPageObject(driver);
+        MyListsPageObject.openFolderByName(name_of_folder);
+        MyListsPageObject.swipeByArticleToDelete(first_article_name);
 
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//android.widget.ImageButton[@content-desc='Navigate up']"),
-                "Cannot close article, cannot find X link",
-                5
-        );
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//android.widget.FrameLayout[@content-desc='My lists']"),
-                "Cannot find navigation button to my list",
-                5
-        );
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[@text='"+ name_of_folder +"']"),
-                "Cannot find created folder",
-                5
-        );
-
-        MainPageObject.swipeElementToLeft(
-                By.xpath("//*[@text='"+ first_article_name +"']"),
-                "Cannot find saved article"
-        );
-
-        MainPageObject.waitForElementNotPresent(
-                By.xpath("//*[@text='"+ first_article_name +"']"),
-                "Cannot delete saved article",
-                5
-        );
-
-        MainPageObject.waitForElementAndClick(
-                By.xpath("//*[@text='"+ second_article_name +"']"),
-                "Cannot see existing article",
-                5
-        );
-
-        String actual_result = MainPageObject.waitForElementAndGetAttribute(
-                By.id("org.wikipedia:id/view_page_title_text"),
-                "text",
-                "Cannot see title",
-                10
-        );
-
+        SearchPageObject.clickByArticleWithSubstring(search_line2);
+        String actual_result = ArticlePageObject.getArticleTitle();
         assertEquals(
                 "Article title does not match the saved article's one",
                 second_article_name,
