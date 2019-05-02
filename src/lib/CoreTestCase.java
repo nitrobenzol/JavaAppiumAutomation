@@ -23,7 +23,6 @@ public class CoreTestCase extends TestCase {
 
         DesiredCapabilities capabilities = this.getCapabilitiesByPlatformEnv();
         driver = new AndroidDriver(new URL(AppiumURL), capabilities); // передали андроид-драйверу
-        // все необходимые для запуска параметры
         this.rotateScreenPortrait();
     }
 
@@ -77,5 +76,4 @@ public class CoreTestCase extends TestCase {
         return capabilities;
     }
 
-    // private AppiumDriver getDriverByPlatformEnv() throws Exception
 }

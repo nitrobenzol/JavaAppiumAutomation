@@ -25,8 +25,7 @@ public class iOSTestCase extends TestCase {
         capabilities.setCapability("platformVersion", "11.4");
         capabilities.setCapability("app", "/Users/g.sarkisov/Desktop/JavaAppiumAutomation/apks/Wikipedia.app");
 
-        driver = new IOSDriver(new URL(AppiumURL), capabilities); // передали андроид-драйверу
-        // все необходимые для запуска параметры
+        driver = new IOSDriver(new URL(AppiumURL), capabilities);
         this.rotateScreenPortrait();
     }
 
