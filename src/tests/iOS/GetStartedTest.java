@@ -3,6 +3,7 @@ package tests.iOS;
 import lib.iOSTestCase;
 import lib.ui.WelcomePageObject;
 import org.junit.Test;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class GetStartedTest extends iOSTestCase {
 
@@ -23,4 +24,5 @@ public class GetStartedTest extends iOSTestCase {
         WelcomePage.waitForLearnMoreAboutDataCollectedText();
         WelcomePage.clickGetStartedButton();
     }
+
 }
