@@ -42,11 +42,17 @@ abstract public class ArticlePageObject extends MainPageObject
 
     public void swipeToFooter()
     {
-        this.swipeUpToFindElement(
-                FOOTER_ELEMENT,
-                "Cannot find the end of article",
-                20
-        );
+        if (Platform.getInstance().isAndroid()) {
+            this.swipeUpToFindElement(
+                    FOOTER_ELEMENT,
+                    "Cannot find the end of article",
+                    60
+            );
+        } else {
+            this.swipeUpTillElementAppears(FOOTER_ELEMENT,
+                    "Cannot find the end of article",
+                    60);
+        }
     }
 
     public void addArticleToMyListToNewFolder(String name_of_folder)
