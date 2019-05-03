@@ -13,7 +13,6 @@ abstract public class SearchPageObject extends MainPageObject{
         SEARCH_EMPTY_RESULT_ELEMENT,
         SEARCH_EMPTY_SEARCH_LABEL;
 
-
     public SearchPageObject(AppiumDriver driver)
     {
         super(driver);

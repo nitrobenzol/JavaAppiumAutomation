@@ -12,9 +12,7 @@ public class iOSSearchPageObject extends SearchPageObject {
         SEARCH_RESULT_BY_SUBSTRING_TPL = "xpath://XCUIElementTypeLink[contains(@name,'{SUBSTRING}')]";
         SEARCH_RESULT_ELEMENT = "xpath://XCUIElementTypeLink";
         SEARCH_EMPTY_RESULT_ELEMENT = "xpath://XCUIElementTypeStaticText[@name='No results found']";
-
-        // пока непонятно, что делать с этим элементом, так как в тесте на удаление ввода крестиком поведение на двух платформах отличается
-        SEARCH_EMPTY_SEARCH_LABEL = "id:org.wikipedia:id/search_empty_image";
+        SEARCH_EMPTY_SEARCH_LABEL = "id:Explore";
     }
 
     public iOSSearchPageObject(AppiumDriver driver)
