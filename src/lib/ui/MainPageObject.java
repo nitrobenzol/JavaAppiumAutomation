@@ -8,7 +8,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import lib.Platform;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -141,12 +141,17 @@ public class MainPageObject {
         int middle_y = (upper_y + lower_y) / 2;
 
         TouchAction action = new TouchAction(driver);
-        action.press(right_x, middle_y)
-                .waitAction(300)
-                .moveTo(left_x, middle_y)
-                .release()
-                .perform();
+        action.press(right_x, middle_y);
+        action.waitAction(300);
 
+        if(Platform.getInstance().isAndroid()){
+            action.moveTo(left_x, middle_y);
+        } else {
+            int offset_x = (-1 * element.getSize().getWidth());
+            action.moveTo(offset_x, 0);
+        }
+        action.release();
+        action.perform();
     }
 
     public int getAmountOfElements(String locator)
