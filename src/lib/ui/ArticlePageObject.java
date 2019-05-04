@@ -16,7 +16,8 @@ abstract public class ArticlePageObject extends MainPageObject
         MY_LIST_OK_BUTTON,
         CLOSE_ARTICLE_BUTTON,
         FOLDER_BY_NAME_TPL,
-        HEADER;
+        HEADER,
+        AUTH_SUGGESTION_CLOSE_BUTTON;
 
 
     public ArticlePageObject(AppiumDriver driver)
@@ -157,5 +158,12 @@ abstract public class ArticlePageObject extends MainPageObject
         this.assertElementPresent(
                 TITLE,
                 "Cannot find title on this page");
+    }
+
+    public void cancelAuthSuggestionPopup()
+    {
+        this.waitForElementAndClick(AUTH_SUGGESTION_CLOSE_BUTTON,
+                "Cannot see auth suggestion close button",
+                5);
     }
 }

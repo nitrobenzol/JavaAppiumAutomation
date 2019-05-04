@@ -33,6 +33,7 @@ public class MyListsTests extends CoreTestCase
             ArticlePageObject.addArticleToMyListToNewFolder(name_of_folder);
         } else {
             ArticlePageObject.addArticlesToMySaved();
+            ArticlePageObject.cancelAuthSuggestionPopup();
         }
         ArticlePageObject.closeArticle();
 
@@ -60,22 +61,35 @@ public class MyListsTests extends CoreTestCase
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
         String first_article_name = ArticlePageObject.getArticleTitle();
-        String name_of_folder = "Test folder";
-        ArticlePageObject.addArticleToMyListToNewFolder(name_of_folder);
+        if(Platform.getInstance().isAndroid()){
+            ArticlePageObject.addArticleToMyListToNewFolder(name_of_folder);
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+            ArticlePageObject.cancelAuthSuggestionPopup();
+        }
         ArticlePageObject.closeArticle();
 
         SearchPageObject.initSearchInput();
+        if(Platform.getInstance().isIOS()){
+            SearchPageObject.clearSearchInput();
+        }
         String search_line2 = "JavaScript";
         SearchPageObject.typeSearchLine(search_line2);
         SearchPageObject.clickByArticleWithSubstring("Programming language");
         String second_article_name = ArticlePageObject.getArticleTitle();
-        ArticlePageObject.addArticleToMyListToExistingFolder(name_of_folder);
+        if(Platform.getInstance().isAndroid()){
+            ArticlePageObject.addArticleToMyListToNewFolder(name_of_folder);
+        } else {
+            ArticlePageObject.addArticlesToMySaved();
+        }
         ArticlePageObject.closeArticle();
 
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
         NavigationUI.clickMyLists();
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-        MyListsPageObject.openFolderByName(name_of_folder);
+        if(Platform.getInstance().isAndroid()){
+            MyListsPageObject.openFolderByName(name_of_folder);
+        }
         MyListsPageObject.swipeByArticleToDelete(first_article_name);
 
         SearchPageObject.clickByArticleWithSubstring(search_line2);

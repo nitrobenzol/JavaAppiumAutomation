@@ -12,6 +12,7 @@ public class iOSArticlePageObject extends ArticlePageObject {
         CLOSE_ARTICLE_BUTTON = "id:Back";
         // локатор не хедера, а меню с контентом
         HEADER = "id:Table of contents";
+        AUTH_SUGGESTION_CLOSE_BUTTON = "id:places auth close";
     }
 
     public iOSArticlePageObject (AppiumDriver driver)

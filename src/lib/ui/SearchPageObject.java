@@ -11,7 +11,8 @@ abstract public class SearchPageObject extends MainPageObject{
         SEARCH_RESULT_BY_SUBSTRING_TPL,
         SEARCH_RESULT_ELEMENT,
         SEARCH_EMPTY_RESULT_ELEMENT,
-        SEARCH_EMPTY_SEARCH_LABEL;
+        SEARCH_EMPTY_SEARCH_LABEL,
+        SEARCH_CLEAR_INPUT;
 
     public SearchPageObject(AppiumDriver driver)
     {
@@ -87,5 +88,10 @@ abstract public class SearchPageObject extends MainPageObject{
     public void assertThereIsNoResultOfSearch()
     {
         this.assertElementNotPresent(SEARCH_RESULT_ELEMENT,"We supposed not to find any results");
+    }
+
+    public void clearSearchInput()
+    {
+        this.waitForElementAndClick(SEARCH_CLEAR_INPUT, "Cannot find clear input button", 5);
     }
 }
