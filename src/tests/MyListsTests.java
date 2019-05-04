@@ -91,7 +91,9 @@ public class MyListsTests extends CoreTestCase
             MyListsPageObject.openFolderByName(name_of_folder);
         }
         MyListsPageObject.swipeByArticleToDelete(first_article_name);
-
+        if(Platform.getInstance().isIOS()){
+            MyListsPageObject.waitForArticleToAppearByTitle(search_line2);
+        }
         SearchPageObject.clickByArticleWithSubstring(search_line2);
         String actual_result = ArticlePageObject.getArticleTitle();
         assertEquals(
